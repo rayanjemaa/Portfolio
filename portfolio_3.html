@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rayan Jemaa – Portfolio BTS SIO SISR</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0f1e; --surface: #111827; --surface2: #1a2236;
+    --accent: #3b82f6; --accent2: #60a5fa; --gold: #f59e0b;
+    --text: #e2e8f0; --muted: #64748b; --border: #1e2d45; --white: #ffffff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; overflow-x:hidden; }
+
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(10,15,30,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 2rem; height:64px; display:flex; align-items:center; justify-content:space-between; }
+  .nav-logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.2rem; color:var(--white); letter-spacing:-0.02em; }
+  .nav-logo span { color:var(--accent); }
+  .nav-links { display:flex; gap:2rem; list-style:none; }
+  .nav-links a { color:var(--muted); text-decoration:none; font-size:0.875rem; font-weight:500; transition:color 0.2s; }
+  .nav-links a:hover { color:var(--accent2); }
+
+  .burger { display:none; flex-direction:column; justify-content:center; gap:5px; background:none; border:none; cursor:pointer; padding:6px; }
+  .burger span { display:block; width:24px; height:2px; background:var(--text); border-radius:2px; transition:all 0.3s; }
+  .burger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity:0; }
+  .burger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu { display:none; position:fixed; top:64px; left:0; right:0; bottom:0; background:rgba(10,15,30,0.98); z-index:99; flex-direction:column; align-items:center; justify-content:center; gap:2rem; }
+  .mobile-menu.open { display:flex; }
+  .mobile-menu a { font-family:'Syne',sans-serif; font-size:1.8rem; font-weight:800; color:var(--text); text-decoration:none; transition:color 0.2s; }
+  .mobile-menu a:hover { color:var(--accent); }
+
+  .hero { min-height:100vh; display:flex; align-items:center; padding:6rem 4rem 4rem; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; top:-200px; right:-200px; width:600px; height:600px; background:radial-gradient(circle,rgba(59,130,246,0.12) 0%,transparent 70%); border-radius:50%; }
+  .hero::after { content:''; position:absolute; bottom:-100px; left:-100px; width:400px; height:400px; background:radial-gradient(circle,rgba(245,158,11,0.06) 0%,transparent 70%); border-radius:50%; }
+  .hero-content { max-width:700px; position:relative; z-index:1; }
+  .hero-badge { display:inline-flex; align-items:center; gap:0.5rem; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.25); color:var(--accent2); padding:0.35rem 1rem; border-radius:100px; font-size:0.8rem; font-weight:500; margin-bottom:1.5rem; animation:fadeUp 0.6s ease both; }
+  .hero-badge::before { content:''; width:6px; height:6px; background:var(--accent); border-radius:50%; animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)} }
+  .hero h1 { font-family:'Syne',sans-serif; font-size:clamp(3rem,7vw,5.5rem); font-weight:800; line-height:1.05; letter-spacing:-0.03em; color:var(--white); animation:fadeUp 0.6s 0.1s ease both; }
+  .hero h1 .accent { color:var(--accent); }
+  .hero-subtitle { font-size:1.15rem; color:var(--muted); margin:1.25rem 0 2rem; font-weight:400; animation:fadeUp 0.6s 0.2s ease both; }
+  .hero-subtitle strong { color:var(--text); font-weight:500; }
+  .hero-cta { display:flex; gap:1rem; flex-wrap:wrap; animation:fadeUp 0.6s 0.3s ease both; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)} }
+
+  .btn-primary { background:var(--accent); color:white; padding:0.75rem 1.75rem; border-radius:8px; text-decoration:none; font-weight:600; font-size:0.9rem; transition:all 0.2s; }
+  .btn-primary:hover { background:var(--accent2); transform:translateY(-2px); }
+  .btn-outline { background:transparent; color:var(--text); padding:0.75rem 1.75rem; border-radius:8px; text-decoration:none; font-weight:500; font-size:0.9rem; border:1px solid var(--border); transition:all 0.2s; }
+  .btn-outline:hover { border-color:var(--accent); color:var(--accent2); transform:translateY(-2px); }
+
+  section { padding:5rem 4rem; }
+  section:nth-child(even) { background:var(--surface); }
+  .section-label { font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.15em; color:var(--accent); margin-bottom:0.75rem; }
+  .section-title { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:800; color:var(--white); letter-spacing:-0.02em; margin-bottom:0.75rem; }
+  .section-desc { color:var(--muted); font-size:1rem; max-width:560px; margin-bottom:3rem; }
+  .tag { background:rgba(59,130,246,0.1); color:var(--accent2); padding:0.2rem 0.65rem; border-radius:100px; font-size:0.75rem; font-weight:500; border:1px solid rgba(59,130,246,0.2); }
+
+  .skills-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.25rem; }
+  .skill-card { background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:1.5rem; transition:all 0.3s; }
+  .skill-card:hover { border-color:var(--accent); transform:translateY(-4px); box-shadow:0 8px 32px rgba(59,130,246,0.15); }
+  .skill-card-icon { width:42px; height:42px; background:rgba(59,130,246,0.12); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.25rem; margin-bottom:1rem; }
+  .skill-card h3 { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; color:var(--white); margin-bottom:0.75rem; }
+  .skill-tags { display:flex; flex-wrap:wrap; gap:0.4rem; }
+
+  .projects-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:1.5rem; }
+  .project-card { background:var(--surface2); border:1px solid var(--border); border-radius:16px; padding:1.75rem; transition:all 0.3s; position:relative; overflow:hidden; display:flex; flex-direction:column; }
+  .project-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--accent),var(--gold)); opacity:0; transition:opacity 0.3s; }
+  .project-card:hover { border-color:rgba(59,130,246,0.3); transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,0.3); }
+  .project-card:hover::before { opacity:1; }
+  .project-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin-bottom:1rem; }
+  .project-card h3 { font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700; color:var(--white); margin-bottom:0.5rem; }
+  .project-card p { color:var(--muted); font-size:0.875rem; line-height:1.6; margin-bottom:1.25rem; flex:1; }
+  .project-footer { display:flex; justify-content:space-between; align-items:center; margin-top:auto; flex-wrap:wrap; gap:0.5rem; }
+  .project-tags { display:flex; gap:0.4rem; flex-wrap:wrap; }
+  .btn-dl { display:inline-flex; align-items:center; gap:0.4rem; background:rgba(59,130,246,0.1); color:var(--accent2); border:1px solid rgba(59,130,246,0.25); padding:0.4rem 0.9rem; border-radius:8px; font-size:0.78rem; font-weight:600; text-decoration:none; transition:all 0.2s; white-space:nowrap; }
+  .btn-dl:hover { background:rgba(59,130,246,0.2); transform:translateY(-1px); }
+
+  .timeline { position:relative; padding-left:2rem; }
+  .timeline::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background:linear-gradient(to bottom,var(--accent),transparent); }
+  .timeline-item { position:relative; margin-bottom:2.5rem; padding-left:1.5rem; }
+  .timeline-item::before { content:''; position:absolute; left:-2.15rem; top:0.4rem; width:10px; height:10px; background:var(--accent); border-radius:50%; border:2px solid var(--bg); box-shadow:0 0 0 4px rgba(59,130,246,0.2); }
+  .timeline-date { font-size:0.78rem; color:var(--accent2); font-weight:600; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.3rem; }
+  .timeline-item h3 { font-family:'Syne',sans-serif; font-weight:700; color:var(--white); font-size:1.05rem; margin-bottom:0.25rem; }
+  .timeline-item p { color:var(--muted); font-size:0.875rem; }
+
+  .veille-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.25rem; }
+  .veille-card { background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:1.5rem; transition:all 0.3s; }
+  .veille-card:hover { border-color:var(--gold); transform:translateY(-3px); }
+  .veille-date { font-size:0.75rem; color:var(--gold); font-weight:600; margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.08em; }
+  .veille-card h3 { font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:700; color:var(--white); margin-bottom:0.5rem; line-height:1.3; }
+  .veille-card p { color:var(--muted); font-size:0.825rem; line-height:1.5; }
+  .veille-source { display:inline-block; margin-top:0.75rem; font-size:0.72rem; color:var(--accent2); font-weight:500; }
+
+  .contact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; max-width:700px; }
+  .contact-card { background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:1.25rem 1.5rem; display:flex; align-items:center; gap:1rem; text-decoration:none; color:var(--text); transition:all 0.2s; }
+  .contact-card:hover { border-color:var(--accent); transform:translateY(-3px); }
+  .contact-icon { width:40px; height:40px; border-radius:10px; background:rgba(59,130,246,0.1); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+  .contact-info { min-width:0; }
+  .contact-info span { display:block; font-size:0.72rem; color:var(--muted); margin-bottom:0.15rem; }
+  .contact-info strong { font-size:0.85rem; color:var(--white); font-weight:500; word-break:break-all; }
+
+  footer { text-align:center; padding:2rem; border-top:1px solid var(--border); color:var(--muted); font-size:0.8rem; }
+
+  @media (max-width:768px) {
+    nav { padding:0 1rem; }
+    .nav-links { display:none; }
+    .burger { display:flex; }
+    section { padding:3.5rem 1.5rem; }
+    .hero { padding:5rem 1.5rem 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">RJ<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#profil">Profil</a></li>
+    <li><a href="#competences">Compétences</a></li>
+    <li><a href="#projets">Projets</a></li>
+    <li><a href="#parcours">Parcours</a></li>
+    <li><a href="#veille">Veille</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#profil" onclick="closeMenu()">Profil</a>
+  <a href="#competences" onclick="closeMenu()">Compétences</a>
+  <a href="#projets" onclick="closeMenu()">Projets</a>
+  <a href="#parcours" onclick="closeMenu()">Parcours</a>
+  <a href="#veille" onclick="closeMenu()">Veille</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+</div>
+
+<section class="hero" id="profil">
+  <div class="hero-content">
+    <div class="hero-badge">BTS SIO SISR – 1ère année · IPSSI Paris</div>
+    <h1>Rayan<br><span class="accent">Jemaa</span></h1>
+    <p class="hero-subtitle">
+      Étudiant <strong>BTS SIO – option SISR</strong> à l'IPSSI Paris.<br>
+      Administration des systèmes, des réseaux et cybersécurité.
+    </p>
+    <div class="hero-cta">
+      <a href="#projets" class="btn-primary">Voir mes projets</a>
+      <a href="#contact" class="btn-outline">Me contacter</a>
+    </div>
+  </div>
+</section>
+
+<section id="competences">
+  <div class="section-label">Savoir-faire</div>
+  <h2 class="section-title">Compétences techniques</h2>
+  <p class="section-desc">Compétences acquises en formation BTS SIO SISR à l'IPSSI Paris.</p>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-card-icon">🖥️</div>
+      <h3>Systèmes</h3>
+      <div class="skill-tags">
+        <span class="tag">Windows Server 2022</span><span class="tag">Active Directory</span>
+        <span class="tag">DNS / DHCP</span><span class="tag">GPO</span>
+        <span class="tag">Debian Linux</span><span class="tag">VMware</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🌐</div>
+      <h3>Réseaux</h3>
+      <div class="skill-tags">
+        <span class="tag">Cisco Packet Tracer</span><span class="tag">VLANs</span>
+        <span class="tag">Routage statique</span><span class="tag">NAT / PAT</span>
+        <span class="tag">Inter-VLAN</span><span class="tag">TCP/IP</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🛠️</div>
+      <h3>Administration & Outils</h3>
+      <div class="skill-tags">
+        <span class="tag">GLPI</span><span class="tag">LDAP / AD</span>
+        <span class="tag">Inventaire auto</span><span class="tag">Ticketing ITIL</span>
+        <span class="tag">GPO déploiement</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🔐</div>
+      <h3>Cybersécurité</h3>
+      <div class="skill-tags">
+        <span class="tag">Segmentation réseau</span><span class="tag">VLAN de sécurité</span>
+        <span class="tag">RGPD</span><span class="tag">Politique de sécurité</span>
+        <span class="tag">Gestion des accès</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">💼</div>
+      <h3>Compétences transversales</h3>
+      <div class="skill-tags">
+        <span class="tag">Rédaction technique</span><span class="tag">Gestion de projet</span>
+        <span class="tag">Travail en équipe</span><span class="tag">Autonomie</span>
+        <span class="tag">Résolution problèmes</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projets">
+  <div class="section-label">Réalisations</div>
+  <h2 class="section-title">Projets & Procédures</h2>
+  <p class="section-desc">Projets réalisés en formation à l'IPSSI Paris dans le cadre de l'AP BioTech.</p>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-icon" style="background:rgba(59,130,246,0.12);">🏢</div>
+      <h3>Infrastructure Active Directory – BioTech</h3>
+      <p>Déploiement complet d'un domaine Windows Server 2022 : Active Directory DS, DNS, DHCP, création d'OUs, utilisateurs, groupes et GPOs (blocage CMD, mappage lecteurs, déploiement logiciels).</p>
+      <div class="project-footer">
+        <div class="project-tags"><span class="tag">Windows Server</span><span class="tag">AD DS</span><span class="tag">GPO</span></div>
+        <a href="compte_rendu_mission4.pdf" class="btn-dl" target="_blank">⬇ Procédure</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon" style="background:rgba(245,158,11,0.12);">📋</div>
+      <h3>GLPI – Habilitations & Entités</h3>
+      <p>Configuration de l'arborescence GLPI : création des entités BioTech, des profils d'habilitation (Self-Service, Technicien, Admin), des groupes et utilisateurs avec affectation aux bons périmètres.</p>
+      <div class="project-footer">
+        <div class="project-tags"><span class="tag">GLPI</span><span class="tag">ITIL</span><span class="tag">Habilitations</span></div>
+        <a href="compte_rendu_glpi_habilitations.pdf" class="btn-dl" target="_blank">⬇ Procédure</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon" style="background:rgba(16,185,129,0.12);">🔗</div>
+      <h3>GLPI – Intégration LDAP / Active Directory</h3>
+      <p>Synchronisation de GLPI avec l'Active Directory BioTech via LDAP : import automatique des utilisateurs du domaine, liaison des comptes AD aux profils GLPI, test de connexion.</p>
+      <div class="project-footer">
+        <div class="project-tags"><span class="tag">GLPI</span><span class="tag">LDAP</span><span class="tag">Active Directory</span></div>
+        <a href="compte_rendu_glpi_ldap.pdf" class="btn-dl" target="_blank">⬇ Procédure</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon" style="background:rgba(139,92,246,0.12);">⚙️</div>
+      <h3>GLPI – Déploiement agent par GPO</h3>
+      <p>Création d'une GPO de déploiement automatique de l'agent GLPI sur les postes clients Windows du domaine BioTech. Vérification de la remontée d'inventaire après application de la stratégie.</p>
+      <div class="project-footer">
+        <div class="project-tags"><span class="tag">GPO</span><span class="tag">GLPI Agent</span><span class="tag">Windows Server</span></div>
+        <a href="compte_rendu_glpi_gpo.pdf" class="btn-dl" target="_blank">⬇ Procédure</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon" style="background:rgba(59,130,246,0.12);">📦</div>
+      <h3>GLPI – Inventaire automatique</h3>
+      <p>Activation de l'inventaire natif GLPI 13, installation et configuration de GLPI Agent 1.5 sur CLIENT1 (Windows 11). Remontée complète : OS, CPU, RAM, disque, 124 logiciels détectés.</p>
+      <div class="project-footer">
+        <div class="project-tags"><span class="tag">GLPI Agent</span><span class="tag">Inventaire</span><span class="tag">Windows 11</span></div>
+        <a href="TP9_GLPI_Inventaire.pdf" class="btn-dl" target="_blank">⬇ Procédure</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon" style="background:rgba(245,158,11,0.12);">🎫</div>
+      <h3>GLPI – Gestion de tickets d'incident</h3>
+      <p>Création d'un utilisateur métier (Alice Durand), association à son poste PC-BE-01, ouverture d'un ticket d'incident via Self-Service, prise en charge technicien, tâche planifiée et clôture.</p>
+      <div class="project-footer">
+        <div class="project-tags"><span class="tag">GLPI</span><span class="tag">ITIL</span><span class="tag">Ticketing</span></div>
+        <a href="TP10_GLPI_Ticket_Incident.pdf" class="btn-dl" target="_blank">⬇ Procédure</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon" style="background:rgba(239,68,68,0.12);">🔌</div>
+      <h3>Cisco – Infrastructure réseau BioTech</h3>
+      <p>Configuration sur Cisco Packet Tracer : 5 VLANs (Direction RH, Bureau d'Études, Accueil, Serveurs), ports trunk, routage inter-VLAN (Router-on-a-Stick), routage statique, NAT/PAT et DHCP centralisé.</p>
+      <div class="project-footer">
+        <div class="project-tags"><span class="tag">Cisco</span><span class="tag">VLAN</span><span class="tag">NAT/PAT</span><span class="tag">DHCP</span></div>
+        <a href="Procédure CISCO.pdf" class="btn-dl" target="_blank">⬇ Procédure</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="parcours">
+  <div class="section-label">Parcours</div>
+  <h2 class="section-title">Formation</h2>
+  <p class="section-desc">Mon parcours académique.</p>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">2025 – 2027</div>
+      <h3>BTS SIO – option SISR · 1ère année</h3>
+      <p>IPSSI Paris — Administration des systèmes et réseaux. Windows Server, Active Directory, Cisco, GLPI, Cybersécurité.</p>
+    </div>
+  </div>
+</section>
+
+<section id="veille">
+  <div class="section-label">Veille technologique</div>
+  <h2 class="section-title">Cybersécurité des réseaux</h2>
+  <p class="section-desc">Suivi des actualités en cybersécurité réseau — segmentation, menaces et bonnes pratiques.</p>
+  <div class="veille-grid">
+    <div class="veille-card">
+      <div class="veille-date">3 mars 2026</div>
+      <h3>Segmentation réseau par VLANs : pourquoi c'est essentiel en entreprise</h3>
+      <p>La segmentation via VLANs limite la propagation des menaces latérales en cas d'intrusion. Un ransomware cantonné à un VLAN ne peut pas atteindre les serveurs critiques.</p>
+      <span class="veille-source">📰 LeMondeinformatique.fr</span>
+    </div>
+    <div class="veille-card">
+      <div class="veille-date">10 mars 2026</div>
+      <h3>Zero Trust Network Access (ZTNA) : le modèle de sécurité qui remplace le VPN</h3>
+      <p>Le modèle Zero Trust impose une vérification systématique de chaque accès. Adopté massivement depuis les attaques supply chain de 2025.</p>
+      <span class="veille-source">📰 ANSSI – anssi.gouv.fr</span>
+    </div>
+    <div class="veille-card">
+      <div class="veille-date">17 mars 2026</div>
+      <h3>Rapport ANSSI 2025 : les PME, cibles privilégiées des ransomwares</h3>
+      <p>L'ANSSI relève une hausse de 42% des attaques par ransomware contre les PME françaises en 2025. La faible segmentation réseau est la principale faille exploitée.</p>
+      <span class="veille-source">📰 ANSSI – Rapport annuel 2025</span>
+    </div>
+    <div class="veille-card">
+      <div class="veille-date">24 mars 2026</div>
+      <h3>WPA3 : le nouveau standard Wi-Fi qui renforce la sécurité des réseaux sans fil</h3>
+      <p>WPA3 corrige les vulnérabilités du protocole WPA2 grâce au chiffrement SAE. Désormais obligatoire pour les équipements Wi-Fi 6 certifiés.</p>
+      <span class="veille-source">📰 NetworkChuck – YouTube</span>
+    </div>
+    <div class="veille-card">
+      <div class="veille-date">31 mars 2026</div>
+      <h3>Firewall nouvelle génération (NGFW) vs pare-feu classique : quelles différences ?</h3>
+      <p>Les NGFW analysent le contenu applicatif des paquets (Deep Packet Inspection) et intègrent des fonctions IDS/IPS. Ils remplacent progressivement les firewalls stateless.</p>
+      <span class="veille-source">📰 Cisco Networking Academy Blog</span>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-label">Contact</div>
+  <h2 class="section-title">Me contacter</h2>
+  <p class="section-desc">N'hésitez pas à me contacter.</p>
+  <div class="contact-grid">
+    <a href="/cdn-cgi/l/email-protection#4416253d252a29253e2a25042329252d286a272b29" class="contact-card">
+      <div class="contact-icon">✉️</div>
+      <div class="contact-info"><span>Email</span><strong><span class="__cf_email__" data-cfemail="1f4d7e667e71727e65717e5f78727e7673317c7072">[email&#160;protected]</span></strong></div>
+    </a>
+    <a href="https://github.com/rayanjemaa" target="_blank" class="contact-card">
+      <div class="contact-icon">🐙</div>
+      <div class="contact-info"><span>GitHub</span><strong>github.com/rayanjemaa</strong></div>
+    </a>
+    <a href="https://www.linkedin.com/in/rayan-jemaa7" target="_blank" class="contact-card">
+      <div class="contact-icon">💼</div>
+      <div class="contact-info"><span>LinkedIn</span><strong>rayan-jemaa7</strong></div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Rayan Jemaa — BTS SIO SISR · IPSSI Paris</p>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function toggleMenu() {
+  const burger = document.getElementById('burger');
+  const menu = document.getElementById('mobileMenu');
+  burger.classList.toggle('open');
+  menu.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contain
